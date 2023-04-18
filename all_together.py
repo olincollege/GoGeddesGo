@@ -5,6 +5,7 @@ import random
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
 from pygame.locals import (
+    RLEACCEL,
     K_UP,
     K_DOWN,
     K_LEFT,
@@ -127,8 +128,15 @@ while running:
     for entity in all_sprites:
         screen.blit(entity.surf, entity.rect)
 
+    # Check if any enemies have collided with the player
+    if pygame.sprite.spritecollideany(player, enemies):
+        # If so, then remove the player and stop the loop
+        player.kill()
+        running = False
+
     # Draw the player on the screen
     screen.blit(player.surf, player.rect)
 
     # Update the display
     pygame.display.flip()
+
