@@ -29,7 +29,7 @@ class Player(pygame.sprite.Sprite):
 
     # move the sprite based on user keypresses
     def update(self, pressed_keys):
-        if pressed_keys[K-UP]:
+        if pressed_keys[K_UP]:
             self.rect.move_ip(0, -5)
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, 5)
@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
 # PYGAME_TUTORIAL
 pygame.init()
 
-screen = pygame.display.set_mode([500, 500])
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 
 # NEW
