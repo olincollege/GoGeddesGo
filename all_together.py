@@ -20,6 +20,7 @@ from pygame.locals import (
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 
+
 # Define a player object by extending pygame.sprite.Sprite
 # The surface drawn on the screen is now an attribute of 'player'
 class Player(pygame.sprite.Sprite):
@@ -68,6 +69,7 @@ class Boat(pygame.sprite.Sprite):
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
 
+
 # Define the enemy object by extending pygame.sprite.Sprite
 # The surface you draw on the screen is now an attribute of 'enemy'
 class Enemy(pygame.sprite.Sprite):
@@ -91,6 +93,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+
 # Define the Finish object by extending pygame.sprite.Sprite
 # Use an image for a better-looking sprite
 class Finish(pygame.sprite.Sprite):
@@ -103,21 +106,19 @@ class Finish(pygame.sprite.Sprite):
 class BoatFinish(Finish):
     def __init__(self):
         super(BoatFinish, self).__init__("scotland.png")
-        self.rect = self.surf.get_rect(
-            center=(1400, 800)
-        )
+        self.rect = self.surf.get_rect(center=(1400, 800))
 
     def update(self):
         def update(self):
             if self.rect.right < 0:
                 self.kill()
 
+
 class PlayerFinish(Finish):
     def __init__(self):
         super(PlayerFinish, self).__init__("a_plus_transparent.png")
-        self.rect = self.surf.get_rect(
-            center=(1200, 225)
-        )
+        self.rect = self.surf.get_rect(center=(1200, 225))
+
 
 # Initialize pygame
 pygame.init()
@@ -185,7 +186,9 @@ while running:
         screen.blit(entity.surf, entity.rect)
 
     # Check if any enemies have collided with the player
-    if pygame.sprite.spritecollideany(player, enemies) or pygame.sprite.spritecollideany(boat, finish_lines):
+    if pygame.sprite.spritecollideany(
+        player, enemies
+    ) or pygame.sprite.spritecollideany(boat, finish_lines):
         # If so, then remove the player and stop the loop
         player.kill()
         running = False
@@ -200,5 +203,8 @@ while running:
     # Draw the player on the screen
     screen.blit(player.surf, player.rect)
 
-    # Update the display
-    pygame.display.flip()
+clock = pygame.time.Clock()
+# Update the display
+pygame.display.flip()
+# Ensure program maintains a rate of 30 frames per second
+clock.tick(30)
