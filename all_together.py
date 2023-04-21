@@ -116,7 +116,7 @@ class PlayerFinish(Finish):
     def __init__(self):
         super(PlayerFinish, self).__init__("a_plus_transparent.png")
         self.rect = self.surf.get_rect(
-            center=(1400, 400)
+            center=(1200, 225)
         )
 
 # Initialize pygame
