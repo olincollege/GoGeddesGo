@@ -203,8 +203,8 @@ while running:
     # Draw the player on the screen
     screen.blit(player.surf, player.rect)
 
-clock = pygame.time.Clock()
-# Update the display
-pygame.display.flip()
-# Ensure program maintains a rate of 30 frames per second
-clock.tick(30)
+    clock = pygame.time.Clock()
+    # Update the display
+    pygame.display.flip()
+    # Ensure program maintains a rate of 30 frames per second
+    clock.tick(30)
