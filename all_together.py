@@ -1,6 +1,7 @@
 # Import the pygame module
 import pygame
 import random
+from abc import ABC, abstractmethod
 
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
@@ -48,6 +49,25 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = SCREEN_HEIGHT
 
 
+class Boat(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Boat, self).__init__()
+        self.surf = pygame.image.load("its_beautiful_small.png").convert()
+        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        self.rect = self.surf.get_rect()
+
+    def update(self, pressed_keys):
+        self.rect.move_ip(1, 0)
+
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > SCREEN_WIDTH:
+            self.rect.right = SCREEN_WIDTH
+        if self.rect.top <= 0:
+            self.rect.top = 0
+        if self.rect.bottom >= SCREEN_HEIGHT:
+            self.rect.bottom = SCREEN_HEIGHT
+
 # Define the enemy object by extending pygame.sprite.Sprite
 # The surface you draw on the screen is now an attribute of 'enemy'
 class Enemy(pygame.sprite.Sprite):
@@ -62,6 +82,7 @@ class Enemy(pygame.sprite.Sprite):
             )
         )
         self.speed = random.randint(5, 20)
+        self.speed = 1
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
@@ -70,6 +91,33 @@ class Enemy(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+# Define the Finish object by extending pygame.sprite.Sprite
+# Use an image for a better-looking sprite
+class Finish(pygame.sprite.Sprite):
+    def __init__(self, image_path):
+        super(Finish, self).__init__()
+        self.surf = pygame.image.load(image_path).convert()
+        self.surf.set_colorkey((0, 0, 0), RLEACCEL)
+
+
+class BoatFinish(Finish):
+    def __init__(self):
+        super(BoatFinish, self).__init__("scotland.jpg")
+        self.rect = self.surf.get_rect(
+            center=(1400, 800)
+        )
+
+    def update(self):
+        def update(self):
+            if self.rect.right < 0:
+                self.kill()
+
+class PlayerFinish(Finish):
+    def __init__(self):
+        super(PlayerFinish, self).__init__("player_finish.png")
+        self.rect = self.surf.get_rect(
+            center=(1400, 400)
+        )
 
 # Initialize pygame
 pygame.init()
@@ -84,13 +132,21 @@ pygame.time.set_timer(ADDENEMY, 250)
 
 # Instantiate player. Right now, this is just a rectangle.
 player = Player()
+boat = Boat()
+player_finish = PlayerFinish()
+boat_finish = BoatFinish()
 
 # Create groups to hold enemy sprites and all sprites
 # - enemies is used for collision detection and position updates
 # - all_sprites is used for rendering
 enemies = pygame.sprite.Group()
+finish_lines = pygame.sprite.Group()
+finish_lines.add(boat_finish)
+finish_lines.add(player_finish)
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
+all_sprites.add(finish_lines)
+all_sprites.add(boat)
 
 # Variable to keep the main loop running
 running = True
@@ -129,10 +185,17 @@ while running:
         screen.blit(entity.surf, entity.rect)
 
     # Check if any enemies have collided with the player
-    if pygame.sprite.spritecollideany(player, enemies):
+    if pygame.sprite.spritecollideany(player, enemies) or pygame.sprite.spritecollideany(boat, finish_lines):
         # If so, then remove the player and stop the loop
         player.kill()
         running = False
+        print("You lose.")
+
+    if pygame.sprite.spritecollideany(player, finish_lines):
+        # If so, then remove the player and stop the loop
+        player.kill()
+        running = False
+        print("You Win!")
 
     # Draw the player on the screen
     screen.blit(player.surf, player.rect)
