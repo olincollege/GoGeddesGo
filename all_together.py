@@ -102,7 +102,7 @@ class Finish(pygame.sprite.Sprite):
 
 class BoatFinish(Finish):
     def __init__(self):
-        super(BoatFinish, self).__init__("scotland.jpg")
+        super(BoatFinish, self).__init__("scotland.png")
         self.rect = self.surf.get_rect(
             center=(1400, 800)
         )
@@ -114,7 +114,7 @@ class BoatFinish(Finish):
 
 class PlayerFinish(Finish):
     def __init__(self):
-        super(PlayerFinish, self).__init__("player_finish.png")
+        super(PlayerFinish, self).__init__("a_plus_transparent.png")
         self.rect = self.surf.get_rect(
             center=(1400, 400)
         )
