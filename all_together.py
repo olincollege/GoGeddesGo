@@ -163,14 +163,18 @@ all_sprites.add(boat)
 # Variable to keep the main loop running
 running = True
 
+# Defines the background image
+bg = pygame.image.load("final_background.JPG")
+
 framerate = 120
 ticks = 0
 start = 1.5
 start_ticks = start * framerate
-#update the boat's position
+# Start the boat in the right place
 boat_controller.update(boat)
 # Main loop
 while running:
+    screen.blit(bg, (0, 0))
     # for loop through the event queue
     for event in pygame.event.get():
         # Check for KEYDOWN event
@@ -200,8 +204,6 @@ while running:
 
     # Update enemy position
     enemies.update()
-    # Fill the screen with black
-    screen.fill((0, 0, 0))
 
     # Draw all sprites
     for entity in all_sprites:
