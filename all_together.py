@@ -26,12 +26,12 @@ SCREEN_HEIGHT = 900
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pygame.image.load("its_beautiful_small.png").convert()
+        self.surf = pygame.image.load("neato_champ.jpg").convert()
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect()
 
 
-class PlayerController():
+class PlayerController:
     def __init__(self, speed):
         self._speed = speed
 
@@ -51,8 +51,8 @@ class PlayerController():
             player.rect.right = SCREEN_WIDTH
         if player.rect.top <= 0:
             player.rect.top = 0
-        if player.rect.bottom >= SCREEN_HEIGHT/2:
-            player.rect.bottom = SCREEN_HEIGHT/2
+        if player.rect.bottom >= SCREEN_HEIGHT / 2:
+            player.rect.bottom = SCREEN_HEIGHT / 2
 
 
 class Boat(pygame.sprite.Sprite):
@@ -63,7 +63,7 @@ class Boat(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(center=(100, 550))
 
 
-class BoatController():
+class BoatController:
     def __init__(self, speed):
         self._speed = speed
 
@@ -90,7 +90,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(
             center=(
                 random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
-                random.randint(0, SCREEN_HEIGHT/2),
+                random.randint(0, SCREEN_HEIGHT / 2),
             )
         )
         self.speed = random.randint(2, 7)
@@ -199,7 +199,7 @@ while running:
         # Update the player sprite based on user keypresses
         player_controller.update(player, pressed_keys)
 
-        #update the boat's position
+        # update the boat's position
         boat_controller.update(boat)
 
     # Update enemy position
