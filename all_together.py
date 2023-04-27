@@ -30,24 +30,29 @@ class Player(pygame.sprite.Sprite):
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect()
 
-    def update(self, pressed_keys):
-        if pressed_keys[K_UP]:
-            self.rect.move_ip(0, -7)
-        if pressed_keys[K_DOWN]:
-            self.rect.move_ip(0, 7)
-        if pressed_keys[K_LEFT]:
-            self.rect.move_ip(-7, 0)
-        if pressed_keys[K_RIGHT]:
-            self.rect.move_ip(7, 0)
 
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
-        if self.rect.top <= 0:
-            self.rect.top = 0
-        if self.rect.bottom >= SCREEN_HEIGHT/2:
-            self.rect.bottom = SCREEN_HEIGHT/2
+class PlayerController():
+    def __init__(self, speed):
+        self._speed = speed
+
+    def update(self, player, pressed_keys):
+        if pressed_keys[K_UP]:
+            player.rect.move_ip(0, -self._speed)
+        if pressed_keys[K_DOWN]:
+            player.rect.move_ip(0, self._speed)
+        if pressed_keys[K_LEFT]:
+            player.rect.move_ip(-self._speed, 0)
+        if pressed_keys[K_RIGHT]:
+            player.rect.move_ip(self._speed, 0)
+
+        if player.rect.left < 0:
+            player.rect.left = 0
+        if player.rect.right > SCREEN_WIDTH:
+            player.rect.right = SCREEN_WIDTH
+        if player.rect.top <= 0:
+            player.rect.top = 0
+        if player.rect.bottom >= SCREEN_HEIGHT/2:
+            player.rect.bottom = SCREEN_HEIGHT/2
 
 
 class Boat(pygame.sprite.Sprite):
@@ -55,19 +60,24 @@ class Boat(pygame.sprite.Sprite):
         super(Boat, self).__init__()
         self.surf = pygame.image.load("holy_grail.png").convert()
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
-        self.rect = self.surf.get_rect()
+        self.rect = self.surf.get_rect(center=(100, 550))
 
-    def update(self, pressed_keys):
-        self.rect.move_ip(1, 0)
 
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
-        if self.rect.top <= 0:
-            self.rect.top = 0
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
+class BoatController():
+    def __init__(self, speed):
+        self._speed = speed
+
+    def update(self, boat):
+        boat.rect.move_ip(self._speed, 0)
+
+        if boat.rect.left < 0:
+            boat.rect.left = 0
+        if boat.rect.right > SCREEN_WIDTH:
+            boat.rect.right = SCREEN_WIDTH
+        if boat.rect.top <= 0:
+            boat.rect.top = 0
+        if boat.rect.bottom >= SCREEN_HEIGHT:
+            boat.rect.bottom = SCREEN_HEIGHT
 
 
 # Define the enemy object by extending pygame.sprite.Sprite
@@ -83,7 +93,7 @@ class Enemy(pygame.sprite.Sprite):
                 random.randint(0, SCREEN_HEIGHT/2),
             )
         )
-        self.speed = random.randint(1, 8)
+        self.speed = random.randint(2, 7)
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
@@ -105,7 +115,7 @@ class Finish(pygame.sprite.Sprite):
 class BoatFinish(Finish):
     def __init__(self):
         super(BoatFinish, self).__init__("scotland.png")
-        self.rect = self.surf.get_rect(center=(1400, 800))
+        self.rect = self.surf.get_rect(center=(1200, 650))
 
     def update(self):
         def update(self):
@@ -132,7 +142,9 @@ pygame.time.set_timer(ADDENEMY, 250)
 
 # Instantiate player. Right now, this is just a rectangle.
 player = Player()
+player_controller = PlayerController(speed=4)
 boat = Boat()
+boat_controller = BoatController(speed=1)
 player_finish = PlayerFinish()
 boat_finish = BoatFinish()
 
@@ -151,6 +163,12 @@ all_sprites.add(boat)
 # Variable to keep the main loop running
 running = True
 
+framerate = 120
+ticks = 0
+start = 1.5
+start_ticks = start * framerate
+#update the boat's position
+boat_controller.update(boat)
 # Main loop
 while running:
     # for loop through the event queue
@@ -172,8 +190,13 @@ while running:
     # Get the set of keys pressed and check for user input
     pressed_keys = pygame.key.get_pressed()
 
-    # Update the player sprite based on user keypresses
-    player.update(pressed_keys)
+    # Delayed start
+    if ticks > start_ticks:
+        # Update the player sprite based on user keypresses
+        player_controller.update(player, pressed_keys)
+
+        #update the boat's position
+        boat_controller.update(boat)
 
     # Update enemy position
     enemies.update()
@@ -205,5 +228,7 @@ while running:
     clock = pygame.time.Clock()
     # Update the display
     pygame.display.flip()
-    # Ensure program maintains a rate of 30 frames per second
+    # Updates game time
+    ticks += 1
+    # Ensure program maintains a rate of 120 frames per second
     clock.tick(120)
