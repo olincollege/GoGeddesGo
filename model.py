@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         Args:
             speed: int, represents movement speed.
         Returns:
-            None 
+            None
         """
         super(Player, self).__init__()
         self.surf = pygame.image.load("neato_champ.jpg").convert()
@@ -88,7 +88,7 @@ class Boat(pygame.sprite.Sprite):
         Args:
             speed: int, represents movement speed.
         Returns:
-            None 
+            None
         """
         super(Boat, self).__init__()
         self.surf = pygame.image.load("holy_grail.png").convert()
