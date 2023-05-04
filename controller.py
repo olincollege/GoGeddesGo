@@ -1,10 +1,13 @@
 import pygame
+
+
 class Controller:
     """
     Controller class. Contains the method keyboard
     which is a key listener that just passes out what
     keys it reads in dictionary form.
     """
+
     def __init__(self, model):
         """
         Constructor for the Controller class
@@ -27,3 +30,4 @@ class Controller:
             A dictionary of the pressed keys
         """
         return pygame.key.get_pressed()
+        

@@ -34,7 +34,7 @@ while running:
         # Check for QUIT event. If QUIT, then set running to false.
         elif event.type == QUIT:
             running = False
-    
+
     view.draw_game()
     status = model.update_model(controller.keyboard(), ticks)
     if status == "W":

@@ -29,6 +29,7 @@ class Player(pygame.sprite.Sprite):
         rect: The sprite rect
 
     """
+
     def __init__(self, speed):
         """
         Constructor for the Player class.
@@ -85,6 +86,7 @@ class Boat(pygame.sprite.Sprite):
         surf: The sprite surface.
         rect: The sprite rect.
     """
+
     def __init__(self, speed):
         """
         Constructor for the Boat class.
@@ -134,6 +136,7 @@ class Enemy(pygame.sprite.Sprite):
         surf: The sprite surface.
         rect: The sprite rect.
     """
+
     def __init__(self):
         """
         Constructor for the Boat class.
@@ -165,7 +168,7 @@ class Enemy(pygame.sprite.Sprite):
             None
         Returns:
             None
-        """        
+        """
         self.rect.move_ip(-self.speed, 0)
         if self.rect.right < 0:
             self.kill()
@@ -180,6 +183,7 @@ class Finish(pygame.sprite.Sprite):
     Attributes:
         surf: The sprite surface
     """
+
     def __init__(self, image_path):
         super(Finish, self).__init__()
         self.surf = pygame.image.load(image_path).convert()
@@ -193,9 +197,11 @@ class BoatFinish(Finish):
     Attributes:
         rect: The sprite rect
     """
+
     def __init__(self):
         super(BoatFinish, self).__init__("scotland.png")
         self.rect = self.surf.get_rect(center=(1200, 650))
+
 
 class PlayerFinish(Finish):
     """
@@ -204,17 +210,19 @@ class PlayerFinish(Finish):
     Attributes:
         rect: The sprite rect
     """
+
     def __init__(self):
         super(PlayerFinish, self).__init__("a_plus_transparent.png")
         self.rect = self.surf.get_rect(center=(1200, 225))
 
 
-class Model():
+class Model:
     """
     Model for our game, part of the MVC framework.
     Represents game state and has an update function
     that updates the game state via the controller.
     """
+
     def __init__(self):
         """
         Constructor for the Model class.
@@ -240,7 +248,6 @@ class Model():
         # Create the screen object
         # The size is determined by the constant SCREEN_WIDTH and SCREEN_HEIGHT
         self._screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
 
         # Create a custom event for adding a new enemy
         self.ADDENEMY = pygame.USEREVENT + 1
@@ -269,7 +276,7 @@ class Model():
 
         # Start the boat in the right place
         self.boat.update()
-    
+
     def update_model(self, pressed_keys, ticks):
         """
         Updates the game state, a single cycle of the control logic.
@@ -312,5 +319,3 @@ class Model():
             # Update the boat's position
             self.boat.update()
         return "fuck it we ball"
-    
-

@@ -12,6 +12,7 @@ def test_init_model():
     model = Model()
     assert type(model) == Model
 
+
 def test_init_view():
     """
     This unit test tests if the view component of our framework initializes without
@@ -21,9 +22,9 @@ def test_init_view():
     view = View(model)
     assert type(view) == View
 
+
 def test_init_controller():
     model = Model()
     view = View(model)
     controller = Controller(model)
     assert type(controller) == Controller
-
