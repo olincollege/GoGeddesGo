@@ -7,3 +7,5 @@ the game by executing the game.py file.
 
 This game was built on PyGame, and uses the `pygame` library to handle all functionality. You can install pygame
 via the command `pip install pygame`. 
+
+Here is a link to a website explaining the game: [Website] (https://avap455.github.io/GoGeddesGoWebsite/)
