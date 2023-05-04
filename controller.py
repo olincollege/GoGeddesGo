@@ -1,3 +1,6 @@
+"""
+controller module, contains the Controller class
+"""
 import pygame
 
 
@@ -30,4 +33,10 @@ class Controller:
             A dictionary of the pressed keys
         """
         return pygame.key.get_pressed()
-        
+
+    def mouse(self):
+        """
+        Placeholder for futher enhancement
+        Intended to read mouse input
+        """
+        return
