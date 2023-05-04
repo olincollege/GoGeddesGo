@@ -14,9 +14,13 @@ from pygame.locals import (
 )
 
 class View():
+    """
+    Handles the visuals and displays of the game.
+    Attributes:
+        _model: A Model instance representing the model state to display.
+    """
     def __init__(self, model):
         self._model = model
-        
 
     def start_screen(self):
         pass
