@@ -9,3 +9,4 @@ This game was built on PyGame, and uses the `pygame` library to handle all funct
 via the command `pip install pygame`. 
 
 Here is a link to a website explaining the game: [Website] (https://avap455.github.io/GoGeddesGoWebsite/)
+Here is a link to the website repository: [Website] (https://github.com/avap455/GoGeddesGoWebsite)
