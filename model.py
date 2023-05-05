@@ -1,22 +1,20 @@
-import pygame
+"""
+Contains many helper classes for our game as well as
+the Model class. Helper classes are intended for internal
+use only.
+"""
+
 import random
-from abc import ABC, abstractmethod
-from pygame.locals import (
-    RLEACCEL,
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    QUIT,
+import pygame
+from pygame.locals import (  # pylint: disable=no-name-in-module
+    RLEACCEL,  # pylint: disable=no-name-in-module
 )
 
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 
 
-class Player(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite):  # pylint: disable=too-few-public-methods
     """
     Represents the player (Neato). Contains player coordinates and
     can update them based on keypresses using the update() method.
@@ -39,9 +37,11 @@ class Player(pygame.sprite.Sprite):
         Returns:
             None
         """
-        super(Player, self).__init__()
+        super(Player, self).__init__()  # pylint: disable=super-with-arguments
         self.surf = pygame.image.load("neato_champ.jpg").convert()
-        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        self.surf.set_colorkey(
+            (255, 255, 255), RLEACCEL
+        )  # pylint: disable=no-member
         self.rect = self.surf.get_rect()
         self._speed = speed
 
@@ -55,26 +55,22 @@ class Player(pygame.sprite.Sprite):
         Returns:
             None
         """
-        if pressed_keys[K_UP]:
+        if pressed_keys[pygame.locals.K_UP]:  # pylint: disable=no-member
             self.rect.move_ip(0, -self._speed)
-        if pressed_keys[K_DOWN]:
+        if pressed_keys[pygame.locals.K_DOWN]:  # pylint: disable=no-member
             self.rect.move_ip(0, self._speed)
-        if pressed_keys[K_LEFT]:
+        if pressed_keys[pygame.locals.K_LEFT]:  # pylint: disable=no-member
             self.rect.move_ip(-self._speed, 0)
-        if pressed_keys[K_RIGHT]:
+        if pressed_keys[pygame.locals.K_RIGHT]:  # pylint: disable=no-member
             self.rect.move_ip(self._speed, 0)
 
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
-        if self.rect.top <= 0:
-            self.rect.top = 0
-        if self.rect.bottom >= SCREEN_HEIGHT / 2:
-            self.rect.bottom = SCREEN_HEIGHT / 2
+        self.rect.left = max(self.rect.left, 0)
+        self.rect.right = min(self.rect.right, SCREEN_WIDTH)
+        self.rect.top = max(self.rect.top, 0)
+        self.rect.bottom = min(self.rect.bottom, SCREEN_HEIGHT/2)
 
 
-class Boat(pygame.sprite.Sprite):
+class Boat(pygame.sprite.Sprite):  # pylint: disable=too-few-public-methods
     """
     Represents John's boat. Contains player coordinates and
     can update its position using the update() method.
@@ -96,9 +92,11 @@ class Boat(pygame.sprite.Sprite):
         Returns:
             None
         """
-        super(Boat, self).__init__()
+        super(Boat, self).__init__()  # pylint: disable=super-with-arguments
         self.surf = pygame.image.load("holy_grail.png").convert()
-        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        self.surf.set_colorkey(
+            (255, 255, 255), RLEACCEL
+        )  # pylint: disable=no-member
         self.rect = self.surf.get_rect(center=(100, 550))
         self._speed = speed
 
@@ -114,19 +112,15 @@ class Boat(pygame.sprite.Sprite):
         """
         self.rect.move_ip(self._speed, 0)
 
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
-        if self.rect.top <= 0:
-            self.rect.top = 0
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
+        self.rect.left = max(self.rect.left, 0)
+        self.rect.right = min(self.rect.right, SCREEN_WIDTH)
+        self.rect.top = max(self.rect.top, 0)
+        self.rect.bottom = min(self.rect.bottom, SCREEN_HEIGHT)
 
 
 # Define the enemy object by extending pygame.sprite.Sprite
 # The surface you draw on the screen is now an attribute of 'enemy'
-class Enemy(pygame.sprite.Sprite):
+class Enemy(pygame.sprite.Sprite):  # pylint: disable=too-few-public-methods
     """
     The enemy class, extends pygame.sprite.Sprite.
     Little white bullets that fly from left to right.
@@ -146,7 +140,7 @@ class Enemy(pygame.sprite.Sprite):
         Returns:
             None
         """
-        super(Enemy, self).__init__()
+        super(Enemy, self).__init__()  # pylint: disable=super-with-arguments
         self.surf = pygame.Surface((20, 10))
         self.surf.fill((255, 255, 255))
         self.rect = self.surf.get_rect(
@@ -176,7 +170,7 @@ class Enemy(pygame.sprite.Sprite):
 
 # Define the Finish object by extending pygame.sprite.Sprite
 # Use an image for a better-looking sprite
-class Finish(pygame.sprite.Sprite):
+class Finish(pygame.sprite.Sprite):  # pylint: disable=too-few-public-methods
     """
     Finish line superclass, extended by the two finish classes.
 
@@ -185,12 +179,12 @@ class Finish(pygame.sprite.Sprite):
     """
 
     def __init__(self, image_path):
-        super(Finish, self).__init__()
+        super(Finish, self).__init__()  # pylint: disable=super-with-arguments
         self.surf = pygame.image.load(image_path).convert()
-        self.surf.set_colorkey((0, 0, 0), RLEACCEL)
+        self.surf.set_colorkey((0, 0, 0), RLEACCEL)  # pylint: disable=no-member
 
 
-class BoatFinish(Finish):
+class BoatFinish(Finish):  # pylint: disable=too-few-public-methods
     """
     Finish line for John's boat. Extends the Finish class
 
@@ -199,11 +193,13 @@ class BoatFinish(Finish):
     """
 
     def __init__(self):
-        super(BoatFinish, self).__init__("scotland.png")
+        super(BoatFinish, self).__init__( # pylint: disable=super-with-arguments
+            "scotland.png"
+        )
         self.rect = self.surf.get_rect(center=(1200, 650))
 
 
-class PlayerFinish(Finish):
+class PlayerFinish(Finish):  # pylint: disable=too-few-public-methods
     """
     Finish line for the player. Extends the Finish class
 
@@ -212,11 +208,15 @@ class PlayerFinish(Finish):
     """
 
     def __init__(self):
-        super(PlayerFinish, self).__init__("a_plus_transparent.png")
+        super( # pylint: disable=super-with-arguments
+            PlayerFinish, self
+        ).__init__(  # pylint: disable=super-with-arguments
+            "a_plus_transparent.png"
+        )
         self.rect = self.surf.get_rect(center=(1200, 225))
 
 
-class Model:
+class Model:  # pylint: disable=(too-many-instance-attributes, too-few-public-methods)
     """
     Model for our game, part of the MVC framework.
     Represents game state and has an update function
@@ -243,15 +243,17 @@ class Model:
         # Define constants for the screen width and height
         # Initialize pygame
         self._start_ticks = 120
-        pygame.init()
+        pygame.init()  # pylint: disable=no-member
 
         # Create the screen object
         # The size is determined by the constant SCREEN_WIDTH and SCREEN_HEIGHT
         self._screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
         # Create a custom event for adding a new enemy
-        self.ADDENEMY = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.ADDENEMY, 60)
+        self.ADDENEMY = (  # pylint: disable=(invalid-name, no-member)
+            pygame.USEREVENT + 1  # pylint: disable=(invalid-name, no-member)
+        )
+        pygame.time.set_timer(self.ADDENEMY, 180)
 
         # Instantiate player. Right now, this is just a rectangle.
         self.player = Player(speed=8)
@@ -272,7 +274,9 @@ class Model:
         self.all_sprites.add(self.boat)
 
         # Defines the background image
-        self.bg = pygame.image.load("final_background.JPG")
+        self.bg = pygame.image.load(  # pylint: disable=invalid-name
+            "final_background.JPG"
+        )
 
         # Start the boat in the right place
         self.boat.update()

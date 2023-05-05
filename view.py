@@ -1,20 +1,10 @@
+"""
+This module contains the View class for our game
+"""
 import pygame
-import random
-from abc import ABC, abstractmethod
-from model import Model, SCREEN_HEIGHT, SCREEN_WIDTH
-from pygame.locals import (
-    RLEACCEL,
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    QUIT,
-)
 
 
-class View:
+class View:  # pylint: disable=too-few-public-methods
     """
     Handles the visuals and displays of the game.
     Attributes:
@@ -42,7 +32,9 @@ class View:
         Returns:
             None
         """
-        self._model._screen.blit(self._model.bg, (0, 0))
+        self._model._screen.blit( # pylint: disable=protected-access
+            self._model.bg, (0, 0)
+        )
         for entity in self._model.all_sprites:
-            self._model._screen.blit(entity.surf, entity.rect)
+            self._model._screen.blit(entity.surf, entity.rect) # pylint: disable=protected-access
         pygame.display.flip()

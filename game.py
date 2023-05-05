@@ -7,8 +7,9 @@ from model import Model
 from view import View
 from controller import Controller
 
-
-pygame.init() # pylint: disable=no-member
+# Ignored error because its wrong, there very much is a member
+# and it is critical to any pygame.
+pygame.init()  # pylint: disable=no-member
 clock = pygame.time.Clock()
 model = Model()
 view = View(model)
